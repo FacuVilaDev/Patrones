@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Patrones_GOF.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,15 @@ namespace Patrones_GOF.Pages
             _logger = logger;
         }
 
-        public void OnGet()
+        [HttpPost("Singleton")]
+        public async Task<IActionResult> OnPostSingleton()
         {
-
+            Conexion c = Conexion.GetConexion();
+            c.Conectar();
+            c.Desconectar();
+            bool respuesta = c.GetType() == typeof(Conexion);
+            Console.WriteLine(respuesta);
+            return Page();
         }
     }
 }
