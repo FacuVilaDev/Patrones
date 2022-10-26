@@ -1,0 +1,10 @@
+﻿global using System;
+global using Patrones_GOF.Services.Fabrica;
+global using Patrones_GOF.Services.Fabrica.Interfaces;
+global using Patrones_GOF.Services.FabricaAbstracta;
+global using Patrones_GOF.Services.FabricaAbstracta.Interfaces;
+global using Patrones_GOF.Services.FabricaAbstracta.Factories;
+global using Patrones_GOF.Services.Singleton;
+global using System;
+global using System.Collections.Generic;
+global using System.Linq;
