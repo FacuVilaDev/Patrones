@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Patrones_GOF.Services.Prototype;
 using System.Threading.Tasks;
 
 namespace Patrones_GOF.Pages
@@ -47,6 +48,18 @@ namespace Patrones_GOF.Pages
             IFabricaAbstracta fabricaREST = FabricaProductor.GetFactory("REST");
             IConexionREST cx3 = fabricaREST.GetREST("COMPRAS");
             cx3.LeerUrl("https://google.com.ar");
+
+            return Page();
+        }
+        public async Task<IActionResult> OnPostPrototype()
+        {
+            CuentaAHimpl cuentaAhorro = new CuentaAHimpl();
+            cuentaAhorro.setMonto(200);
+            CuentaAHimpl cuentaClonada = (CuentaAHimpl)cuentaAhorro.Clone();
+
+            if (cuentaClonada != null)
+                Console.WriteLine(cuentaClonada);
+            Console.WriteLine(cuentaClonada == cuentaAhorro);
 
             return Page();
         }
