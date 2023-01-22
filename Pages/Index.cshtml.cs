@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Patrones_GOF.Services.Adapter;
 using Patrones_GOF.Services.Prototype;
 using System.Threading.Tasks;
 
@@ -60,6 +61,29 @@ namespace Patrones_GOF.Pages
             if (cuentaClonada != null)
                 Console.WriteLine(cuentaClonada);
             Console.WriteLine(cuentaClonada == cuentaAhorro);
+
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostAdapter()
+        {
+            Motor motor1 = new MotorNaftero();
+            motor1.Arrancar();
+            motor1.Acelerar();
+            motor1.Detener();
+            motor1.CargarCombustible();
+
+            Motor motor2 = new MotorElectricoAdapter();
+            motor2.Arrancar();
+            motor2.Acelerar();
+            motor2.Detener();
+            motor2.CargarCombustible();
+
+            Motor motor3 = new MotorDiesel();
+            motor3.Arrancar();
+            motor3.Acelerar();
+            motor3.Detener();
+            motor3.CargarCombustible();
 
             return Page();
         }
