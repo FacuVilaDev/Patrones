@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Patrones_GOF.Services.Adapter;
+using Patrones_GOF.Services.Decorator;
 using Patrones_GOF.Services.Prototype;
 using System.Threading.Tasks;
 
@@ -84,6 +85,18 @@ namespace Patrones_GOF.Pages
             motor3.Acelerar();
             motor3.Detener();
             motor3.CargarCombustible();
+
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostDecorator()
+        {
+            BebidaComponent cafe = new CafeSolo();
+            cafe = new Leche(cafe);
+            cafe = new Azucar(cafe);
+
+            Console.WriteLine($"Producto: {cafe.Descripcion} tiene un costo de : ${cafe.Costo}");
+
 
             return Page();
         }
