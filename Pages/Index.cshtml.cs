@@ -1,6 +1,7 @@
 ﻿
 
 using Patrones_GOF.Services.Estructurales.Builder;
+using Patrones_GOF.Services.Estructurales.Proxy;
 
 namespace Patrones_GOF.Pages
 {
@@ -132,9 +133,9 @@ namespace Patrones_GOF.Pages
         }
         public async Task<IActionResult> OnPostObserver()
         {
-            Producto productoA = new Producto("Guitarra",10);
-            Producto productoB = new Producto("Piano",20);
-            Producto productoC = new Producto("Bateria",30);
+            Producto productoA = new Producto("Guitarra", 10);
+            Producto productoB = new Producto("Piano", 20);
+            Producto productoC = new Producto("Bateria", 30);
             Producto productoD = new Producto("Bajo", 40);
 
             Usuario messi = new Usuario("Lionel", "Messi");
@@ -169,9 +170,9 @@ namespace Patrones_GOF.Pages
 
         public async Task<IActionResult> OnPostBuilder()
         {
-            PizzaItalianaBuilder italianaBuilder = new();  
-            PizzaMuzzaBuilder muzzaBuilder= new();  
-            PizzaLightBuilder lightBuilder= new();
+            PizzaItalianaBuilder italianaBuilder = new();
+            PizzaMuzzaBuilder muzzaBuilder = new();
+            PizzaLightBuilder lightBuilder = new();
 
             Pizza pizaMuzza = muzzaBuilder.BuildPizza();
             Pizza pizaLight = lightBuilder.BuildPizza();
@@ -181,6 +182,28 @@ namespace Patrones_GOF.Pages
             response += $"Producto: {pizaLight}\n";
             response += $"Producto: {pizaItaliana}\n";
 
+
+            return new OkObjectResult(response);
+        }
+        public async Task<IActionResult> OnPostProxy()
+        {
+            IRepository repo = new CustomerRepositoryProxy();
+
+            Session.CanSave = true;
+            Session.CanGetAll = true;
+
+            Customer p1 = new Customer("Customer 1");
+            Customer p2 = new Customer("Customer 2");
+
+
+            repo.Save(p1);
+            repo.Save(p2);
+
+            string response = "";
+            foreach (var p in repo.GetAll())
+            {
+                response += p.Name+"\n";
+            }
 
             return new OkObjectResult(response);
         }
