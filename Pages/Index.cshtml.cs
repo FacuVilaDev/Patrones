@@ -1,5 +1,7 @@
 ﻿
 
+using Patrones_GOF.Services.Estructurales.Builder;
+
 namespace Patrones_GOF.Pages
 {
     public class IndexModel : PageModel
@@ -163,6 +165,24 @@ namespace Patrones_GOF.Pages
             productoD.Precio = 11;
 
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostBuilder()
+        {
+            PizzaItalianaBuilder italianaBuilder = new();  
+            PizzaMuzzaBuilder muzzaBuilder= new();  
+            PizzaLightBuilder lightBuilder= new();
+
+            Pizza pizaMuzza = muzzaBuilder.BuildPizza();
+            Pizza pizaLight = lightBuilder.BuildPizza();
+            Pizza pizaItaliana = italianaBuilder.BuildPizza();
+
+            string response = $"Producto: {pizaMuzza}\n";
+            response += $"Producto: {pizaLight}\n";
+            response += $"Producto: {pizaItaliana}\n";
+
+
+            return new OkObjectResult(response);
         }
     }
 }
