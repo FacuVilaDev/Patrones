@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Patrones_GOF.Services.Adapter;
+using Patrones_GOF.Services.Composite;
 using Patrones_GOF.Services.Decorator;
 using Patrones_GOF.Services.Prototype;
 using System.Threading.Tasks;
@@ -23,8 +24,7 @@ namespace Patrones_GOF.Pages
             c.Conectar();
             c.Desconectar();
             bool respuesta = c.GetType() == typeof(Conexion);
-            Console.WriteLine(respuesta);
-            return Page();
+            return new OkObjectResult(respuesta);
         }
         public async Task<IActionResult> OnPostFabrica()
         {
@@ -59,11 +59,12 @@ namespace Patrones_GOF.Pages
             cuentaAhorro.setMonto(200);
             CuentaAHimpl cuentaClonada = (CuentaAHimpl)cuentaAhorro.Clone();
 
+            string response = "";
             if (cuentaClonada != null)
-                Console.WriteLine(cuentaClonada);
-            Console.WriteLine(cuentaClonada == cuentaAhorro);
+                response += $"{cuentaClonada.ToString()}\n";
+            response += $"{cuentaClonada == cuentaAhorro}\n";
 
-            return Page();
+            return new OkObjectResult(response);
         }
 
         public async Task<IActionResult> OnPostAdapter()
@@ -95,10 +96,44 @@ namespace Patrones_GOF.Pages
             cafe = new Leche(cafe);
             cafe = new Azucar(cafe);
 
-            Console.WriteLine($"Producto: {cafe.Descripcion} tiene un costo de : ${cafe.Costo}");
+            Console.WriteLine();
+
+            string response = $"Producto: {cafe.Descripcion} tiene un costo de : ${cafe.Costo}";
 
 
-            return Page();
+            return new OkObjectResult(response);
+        }
+
+        public async Task<IActionResult> OnPostComposite()
+        {
+            Component root = new Directorio("raiz");
+
+            Component archivo1 = new Archivo("archivo1.txt", 10);
+            Component archivo2 = new Archivo("archivo2.txt", 30);
+            Component archivo3 = new Archivo("archivo3.txt", 120);
+            Component archivo4 = new Archivo("archivo4.txt", 800);
+            Component archivo5 = new Archivo("archivo5.txt", 340);
+
+            Component dir1 = new Directorio("dir1");
+            Component dir2 = new Directorio("dir2");
+            Component dir3 = new Directorio("dir3");
+
+            dir1.AgregarHijo(archivo1);
+            dir2.AgregarHijo(archivo2);
+            dir3.AgregarHijo(archivo3);
+            dir3.AgregarHijo(archivo4);
+            dir1.AgregarHijo(dir3);
+
+            root.AgregarHijo(dir1);
+            root.AgregarHijo(dir2);
+            root.AgregarHijo(archivo5);
+
+            string response = $"El tamaño del directorio {root.Nombre} es {root.ObtenerTamaño}.\n";
+            response += $"El tamaño del directorio {dir1.Nombre} es {dir1.ObtenerTamaño}.\n";
+            response += $"El tamaño del directorio {dir2.Nombre} es {dir2.ObtenerTamaño}.\n";
+            response += $"El tamaño del directorio {dir3.Nombre} es {dir3.ObtenerTamaño}.\n";
+
+            return new OkObjectResult(response);
         }
     }
 }
