@@ -1,11 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using Patrones_GOF.Services.Adapter;
-using Patrones_GOF.Services.Composite;
-using Patrones_GOF.Services.Decorator;
-using Patrones_GOF.Services.Prototype;
-using System.Threading.Tasks;
+﻿
 
 namespace Patrones_GOF.Pages
 {
@@ -134,6 +127,42 @@ namespace Patrones_GOF.Pages
             response += $"El tamaño del directorio {dir3.Nombre} es {dir3.ObtenerTamaño}.\n";
 
             return new OkObjectResult(response);
+        }
+        public async Task<IActionResult> OnPostObserver()
+        {
+            Producto productoA = new Producto("Guitarra",10);
+            Producto productoB = new Producto("Piano",20);
+            Producto productoC = new Producto("Bateria",30);
+            Producto productoD = new Producto("Bajo", 40);
+
+            Usuario messi = new Usuario("Lionel", "Messi");
+            Usuario maradona = new Usuario("Diego", "Maradona");
+            Usuario dimaria = new Usuario("Angel", "DiMaria");
+
+            productoA.Agregar(messi);
+            productoB.Agregar(messi);
+
+            productoA.Precio = 14;
+            productoB.Precio = 13;
+            productoC.Precio = 13;
+            productoD.Precio = 13;
+
+            productoB.Agregar(maradona);
+
+            productoB.Precio = 12;
+
+            productoA.Agregar(dimaria);
+            productoB.Agregar(dimaria);
+            productoC.Agregar(dimaria);
+            productoD.Agregar(dimaria);
+
+            productoD.Precio = 13;
+
+            productoD.Quitar(dimaria);
+
+            productoD.Precio = 11;
+
+            return Page();
         }
     }
 }
