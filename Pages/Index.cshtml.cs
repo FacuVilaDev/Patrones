@@ -1,6 +1,8 @@
 ﻿
 
+using Patrones_GOF.Services.Comportamiento.Memento;
 using Patrones_GOF.Services.Estructurales.Builder;
+using Patrones_GOF.Services.Estructurales.Facade;
 using Patrones_GOF.Services.Estructurales.Proxy;
 
 namespace Patrones_GOF.Pages
@@ -206,6 +208,37 @@ namespace Patrones_GOF.Pages
             }
 
             return new OkObjectResult(response);
+        }
+        public async Task<IActionResult> OnPostFacade()
+        {
+            var shapemaker= new ShapeMaker();
+            shapemaker.DrawCircle();
+            shapemaker.DrawRectangle();
+            shapemaker.DrawSquare();
+            return Page();
+        }
+        static CareTaker caretaker = new CareTaker();
+        public async Task<IActionResult> OnPostMemento()
+        {
+            var p = new Persona();
+            p.Nombre = "Pepe";
+            caretaker.Add(p.saveToMemento());
+
+            p.Nombre = "Pepe1";
+            caretaker.Add(p.saveToMemento());
+
+            p.Nombre = "Pepe2";
+            caretaker.Add(p.saveToMemento());
+
+            Memento m1 = caretaker.GetMemento(0);
+            Memento m2 = caretaker.GetMemento(1);
+            Memento m3 = caretaker.GetMemento(2);
+
+            Console.WriteLine("Viendo memento 1:" + m1.Estado);
+            Console.WriteLine("Viendo memento 2:" + m2.Estado);
+            Console.WriteLine("Viendo memento 3:" +m3.Estado);
+            p.restoreToMemento(m1);
+            return Page();
         }
     }
 }
