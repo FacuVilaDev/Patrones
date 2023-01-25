@@ -1,5 +1,6 @@
 ﻿
 
+using Patrones_GOF.Services.Comportamiento.Chain_of_Responsability;
 using Patrones_GOF.Services.Comportamiento.Memento;
 using Patrones_GOF.Services.Estructurales.Builder;
 using Patrones_GOF.Services.Estructurales.Facade;
@@ -238,6 +239,26 @@ namespace Patrones_GOF.Pages
             Console.WriteLine("Viendo memento 2:" + m2.Estado);
             Console.WriteLine("Viendo memento 3:" +m3.Estado);
             p.restoreToMemento(m1);
+            return Page();
+        }
+        public async Task<IActionResult> OnPostChainOfResponsability()
+        {
+            var comprador = new Comprador();
+            var gerente = new GerenteZonal();
+            var director = new Director();
+
+            gerente.AgregarSiguiente(director);
+            comprador.AgregarSiguiente(gerente);
+
+            var c = new Compra();
+            double importe = 1;
+            while (importe != 0)
+            {
+                c.Importe = importe;
+                comprador.Procesar(c);
+                importe++;
+            }    
+
             return Page();
         }
     }
