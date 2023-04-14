@@ -1,5 +1,6 @@
 ﻿
 
+using Patrones_GOF.Services.Comportamiento.Bridge;
 using Patrones_GOF.Services.Comportamiento.Chain_of_Responsability;
 using Patrones_GOF.Services.Comportamiento.Memento;
 using Patrones_GOF.Services.Estructurales.Builder;
@@ -259,6 +260,16 @@ namespace Patrones_GOF.Pages
                 importe++;
             }    
 
+            return Page();
+        }
+        public async Task<IActionResult> OnPostBridge()
+        {
+            // Creamos una forma y la dibujamos en diferentes colores
+            IForma cuadradoRojo = new Cuadrado(new ColorRojo());
+            cuadradoRojo.Dibujar();
+
+            IForma circuloRojo = new Circulo(new ColorRojo());
+            circuloRojo.Dibujar();
             return Page();
         }
     }
