@@ -2,6 +2,7 @@
 
 using Patrones_GOF.Services.Comportamiento.Bridge;
 using Patrones_GOF.Services.Comportamiento.Chain_of_Responsability;
+using Patrones_GOF.Services.Comportamiento.Command;
 using Patrones_GOF.Services.Comportamiento.Memento;
 using Patrones_GOF.Services.Estructurales.Builder;
 using Patrones_GOF.Services.Estructurales.Facade;
@@ -270,6 +271,22 @@ namespace Patrones_GOF.Pages
 
             IForma circuloRojo = new Circulo(new ColorRojo());
             circuloRojo.Dibujar();
+            return Page();
+        }
+        public async Task<IActionResult> OnPostCommand()
+        {
+            var empresa = new EmpresaInvoker();
+            var producto = new ProductoReceiver();
+            producto.Cantidad = 100;
+
+            var ordenAlta = new AltaStockCommand(producto, 10);
+            empresa.TomarOrden(ordenAlta);
+            var ordenBaja = new BajaStockCommand(producto, 50);
+            empresa.TomarOrden(ordenBaja);
+
+            empresa.ProcesarOrdenes();
+
+            Console.Write(string.Format("Total stock es {0}", producto.Cantidad));
             return Page();
         }
     }
