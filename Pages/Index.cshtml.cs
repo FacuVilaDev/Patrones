@@ -4,6 +4,7 @@ using Patrones_GOF.Services.Comportamiento.Bridge;
 using Patrones_GOF.Services.Comportamiento.Chain_of_Responsability;
 using Patrones_GOF.Services.Comportamiento.Command;
 using Patrones_GOF.Services.Comportamiento.Memento;
+using Patrones_GOF.Services.Comportamiento.Visitor;
 using Patrones_GOF.Services.Estructurales.Builder;
 using Patrones_GOF.Services.Estructurales.Facade;
 using Patrones_GOF.Services.Estructurales.Proxy;
@@ -287,6 +288,20 @@ namespace Patrones_GOF.Pages
             empresa.ProcesarOrdenes();
 
             Console.Write(string.Format("Total stock es {0}", producto.Cantidad));
+            return Page();
+        }
+        public async Task<IActionResult> OnPostVisitor()
+        {
+            IVisitor visitante = new VisitanteConcreto();
+
+            Componente dr = new DiscoRigido("ASDASD");
+            Componente pb = new PlacaBase("FFFFFFFGGGGG");
+            Componente p = new Procesador("AAAAABBBBBB");
+
+            dr.Aceptar(visitante);
+            pb.Aceptar(visitante);
+            p.Aceptar(visitante);
+
             return Page();
         }
     }
