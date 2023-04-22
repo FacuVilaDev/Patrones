@@ -11,6 +11,8 @@ using Patrones_GOF.Services.Estructurales.Facade;
 using Patrones_GOF.Services.Estructurales.Proxy;
 using Patrones_GOF.Services.Comportamiento.Template;
 using Patrones_GOF.Services.Comportamiento.Mediator;
+using Patrones_GOF.Services.Comportamiento.Iterator;
+using System.Runtime.CompilerServices;
 
 namespace Patrones_GOF.Pages
 {
@@ -354,6 +356,49 @@ namespace Patrones_GOF.Pages
             chat.Enviar("Hola, todo bien?", u2, u1);
             chat.Enviar("Bien y vos?", u1, u2);
 
+
+            return Page();
+        }
+        public async Task<IActionResult> OnPostIterator()
+        {
+            Collection collection = new ConcreteCollection();
+            IteratorEjemplo iterator = collection.CreateIterator();
+           
+            //Agregar
+            var newItem = new Item("Soda");
+            collection.Agregar(newItem);
+            var newItem2 = new Item("Azucar");
+            collection.Agregar(newItem2);
+            var newItem3 = new Item("Limón");
+            collection.Agregar(newItem3);
+            var newItem4 = new Item("Vodka");
+            collection.Agregar(newItem4);
+
+            //Listar
+            iterator.First();
+            Item i = iterator.CurrentItem();
+
+            var listado = new List<Item>();
+
+            if (i != null)
+                listado.Add(i);
+            while (!iterator.IsDone())
+            {
+                iterator.Siguiente();
+                listado.Add(iterator.CurrentItem());
+            }
+
+            //Primero
+            iterator.First();
+            var primero = iterator.CurrentItem();
+
+            //Siguiente
+            Item siguiente;
+            if(iterator.IsDone() == false)
+            {
+                iterator.Siguiente();
+                siguiente = iterator.CurrentItem();
+            }
 
             return Page();
         }
