@@ -14,6 +14,7 @@ using Patrones_GOF.Services.Comportamiento.Mediator;
 using Patrones_GOF.Services.Comportamiento.Iterator;
 using System.Runtime.CompilerServices;
 using Patrones_GOF.Services.Comportamiento.State;
+using Patrones_GOF.Services.Comportamiento.Strategy;
 
 namespace Patrones_GOF.Pages
 {
@@ -413,6 +414,18 @@ namespace Patrones_GOF.Pages
             _switch.Presionar();
             _switch.Presionar();
             _switch.Presionar();
+
+            return Page();
+        }
+        public async Task<IActionResult> OnPostStrategy()
+        {
+            var jugador1 = new Jugador(new Bazooka(),"xXxCarlosxXx");
+            var jugador2 = new Jugador(new Ak47(), "DarkShadow");
+            var jugador3 = new Jugador(new Pistola(), "Adrian123");
+
+            jugador1.Disparar();
+            jugador2.Disparar();
+            jugador3.Disparar();
 
             return Page();
         }
