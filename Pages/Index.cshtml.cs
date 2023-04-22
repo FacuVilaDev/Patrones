@@ -3,6 +3,7 @@
 using Patrones_GOF.Services.Comportamiento.Bridge;
 using Patrones_GOF.Services.Comportamiento.Chain_of_Responsability;
 using Patrones_GOF.Services.Comportamiento.Memento;
+using Patrones_GOF.Services.Comportamiento.Interpreter;
 using Patrones_GOF.Services.Estructurales.Builder;
 using Patrones_GOF.Services.Estructurales.Facade;
 using Patrones_GOF.Services.Estructurales.Proxy;
@@ -272,5 +273,25 @@ namespace Patrones_GOF.Pages
             circuloRojo.Dibujar();
             return Page();
         }
-    }
+            public async Task<IActionResult> OnPostInterpreter()
+            {
+            string[] tree;
+            var context = new Context();
+            var expressions = new List<IExpression>();
+            string val = "ocho menos siete";
+            tree = val.Split(' ');
+            IExpression exp;
+            foreach (var t in tree)
+            {
+                if (context.GetInteger(t) < 9)
+                    exp = new NumericExpression(t);
+                else
+                    exp = new OperatorExpression(t);
+                exp.Interpret(context);
+            }
+            var respuesta = $"El resultado para {val} es {context.GetResult()}";
+            Console.WriteLine(respuesta);
+                return Page();
+            }
+        }
 }
