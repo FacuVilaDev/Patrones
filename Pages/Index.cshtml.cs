@@ -13,6 +13,7 @@ using Patrones_GOF.Services.Comportamiento.Template;
 using Patrones_GOF.Services.Comportamiento.Mediator;
 using Patrones_GOF.Services.Comportamiento.Iterator;
 using System.Runtime.CompilerServices;
+using Patrones_GOF.Services.Comportamiento.State;
 
 namespace Patrones_GOF.Pages
 {
@@ -399,6 +400,19 @@ namespace Patrones_GOF.Pages
                 iterator.Siguiente();
                 siguiente = iterator.CurrentItem();
             }
+
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostState()
+        {
+            var _switch = new Switch();
+            _switch.Presionar();
+            _switch.Presionar();
+            _switch.Presionar();
+            _switch.Presionar();
+            _switch.Presionar();
+            _switch.Presionar();
 
             return Page();
         }
