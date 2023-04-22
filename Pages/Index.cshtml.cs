@@ -10,6 +10,7 @@ using Patrones_GOF.Services.Estructurales.Builder;
 using Patrones_GOF.Services.Estructurales.Facade;
 using Patrones_GOF.Services.Estructurales.Proxy;
 using Patrones_GOF.Services.Comportamiento.Template;
+using Patrones_GOF.Services.Comportamiento.Mediator;
 
 namespace Patrones_GOF.Pages
 {
@@ -146,9 +147,9 @@ namespace Patrones_GOF.Pages
             Producto productoC = new Producto("Bateria", 30);
             Producto productoD = new Producto("Bajo", 40);
 
-            Usuario messi = new Usuario("Lionel", "Messi");
-            Usuario maradona = new Usuario("Diego", "Maradona");
-            Usuario dimaria = new Usuario("Angel", "DiMaria");
+            Services.Comportamiento.Observer.Usuario messi = new Services.Comportamiento.Observer.Usuario("Lionel", "Messi");
+            Services.Comportamiento.Observer.Usuario maradona = new Services.Comportamiento.Observer.Usuario("Diego", "Maradona");
+            Services.Comportamiento.Observer.Usuario dimaria = new Services.Comportamiento.Observer.Usuario("Angel", "DiMaria");
 
             productoA.Agregar(messi);
             productoB.Agregar(messi);
@@ -337,6 +338,21 @@ namespace Patrones_GOF.Pages
 
             Credito cH= new CreditoHipotecario(clienteA);
             Credito cP= new CreditoHipotecario(clienteB);
+
+
+            return Page();
+        }
+        public async Task<IActionResult> OnPostMediator()
+        {
+            var chat = new ChatRoom();
+            var u1 = new Usuario1("usuario 1");
+            var u2 = new Usuario1("usuario 2");
+
+            chat.Registrar(u1);
+            chat.Registrar(u2);
+
+            chat.Enviar("Hola, todo bien?", u2, u1);
+            chat.Enviar("Bien y vos?", u1, u2);
 
 
             return Page();
