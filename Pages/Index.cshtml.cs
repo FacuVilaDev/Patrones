@@ -209,14 +209,14 @@ namespace Patrones_GOF.Pages
             string response = "";
             foreach (var p in repo.GetAll())
             {
-                response += p.Name+"\n";
+                response += p.Name + "\n";
             }
 
             return new OkObjectResult(response);
         }
         public async Task<IActionResult> OnPostFacade()
         {
-            var shapemaker= new ShapeMaker();
+            var shapemaker = new ShapeMaker();
             shapemaker.DrawCircle();
             shapemaker.DrawRectangle();
             shapemaker.DrawSquare();
@@ -241,7 +241,7 @@ namespace Patrones_GOF.Pages
 
             Console.WriteLine("Viendo memento 1:" + m1.Estado);
             Console.WriteLine("Viendo memento 2:" + m2.Estado);
-            Console.WriteLine("Viendo memento 3:" +m3.Estado);
+            Console.WriteLine("Viendo memento 3:" + m3.Estado);
             p.restoreToMemento(m1);
             return Page();
         }
@@ -261,7 +261,7 @@ namespace Patrones_GOF.Pages
                 c.Importe = importe;
                 comprador.Procesar(c);
                 importe++;
-            }    
+            }
 
             return Page();
         }
@@ -305,9 +305,8 @@ namespace Patrones_GOF.Pages
 
             return Page();
         }
-    }
-            public async Task<IActionResult> OnPostInterpreter()
-            {
+        public async Task<IActionResult> OnPostInterpreter()
+        {
             string[] tree;
             var context = new Context();
             var expressions = new List<IExpression>();
@@ -324,7 +323,7 @@ namespace Patrones_GOF.Pages
             }
             var respuesta = $"El resultado para {val} es {context.GetResult()}";
             Console.WriteLine(respuesta);
-                return Page();
-            }
+            return Page();
         }
+    }
 }
