@@ -9,6 +9,7 @@ using Patrones_GOF.Services.Comportamiento.Visitor;
 using Patrones_GOF.Services.Estructurales.Builder;
 using Patrones_GOF.Services.Estructurales.Facade;
 using Patrones_GOF.Services.Estructurales.Proxy;
+using Patrones_GOF.Services.Comportamiento.Template;
 
 namespace Patrones_GOF.Pages
 {
@@ -323,6 +324,21 @@ namespace Patrones_GOF.Pages
             }
             var respuesta = $"El resultado para {val} es {context.GetResult()}";
             Console.WriteLine(respuesta);
+            return Page();
+        }
+        public async Task<IActionResult> OnPostTemplate()
+        {
+
+            var clienteA = new Cliente("Roberto Gómez");
+            var clienteB = new Cliente("Marta Sánchez");
+
+            var personal = "Personal";
+            var hipotecario = "Hipotecario";
+
+            Credito cH= new CreditoHipotecario(clienteA);
+            Credito cP= new CreditoHipotecario(clienteB);
+
+
             return Page();
         }
     }
